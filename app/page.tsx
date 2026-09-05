@@ -83,9 +83,9 @@ function PriceChart({ period, currency }: { period: string; currency: Currency }
         <polygon points={fill} fill="url(#areaFill)" />
         <polyline points={actual} fill="none" stroke="var(--orange)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
         <polyline points={forecast} fill="none" stroke="var(--blue)" strokeWidth="3" strokeDasharray="7 7" strokeLinecap="round" strokeLinejoin="round" />
-        <line x1={getX(points.length - 1)} x2={getX(points.length - 1)} y1="0" y2={height} className="forecast-divider" />
-        <circle cx={getX(points.length - 1)} cy={getY(points[points.length - 1])} r="5" fill="var(--orange)" stroke="var(--panel)" strokeWidth="3" />
-        <circle cx={getX(allPoints.length - 1)} cy={getY(allPoints[allPoints.length - 1])} r="5" fill="var(--blue)" stroke="var(--panel)" strokeWidth="3" />
+        <line x1={getX(actualPoints.length - 1)} x2={getX(actualPoints.length - 1)} y1="0" y2={height} className="forecast-divider" />
+        <circle cx={getX(actualPoints.length - 1)} cy={getY(actualPoints[actualPoints.length - 1])} r="5" fill="var(--orange)" stroke="var(--panel)" strokeWidth="3" />
+        <circle cx={getX(allPoints.length - 1)} cy={getY(forecastPointsForPeriod[forecastPointsForPeriod.length - 1])} r="5" fill="var(--blue)" stroke="var(--panel)" strokeWidth="3" />
       </svg>
       <div className="chart-axis">{axisLabels.map((label) => <span key={label}>{label}</span>)}</div>
       <div className="chart-legend"><span><i className="legend-dot orange" />Actual price</span><span><i className="legend-dot blue" />Model forecast</span><span><i className="legend-dot gray" />Forecast starts</span></div>
