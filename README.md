@@ -1,33 +1,178 @@
-# ac-predictor-BITCOIN-
+# ₿ AC Predictor — Bitcoin
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+A modern **Bitcoin Price Analysis & Prediction Dashboard** built with **Next.js and TypeScript**. The project provides an interactive interface for exploring Bitcoin price movements, market trends, historical data, and predictive insights.
 
-## Built with v0
+## 🚀 Features
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+* 📈 Interactive Bitcoin price charts
+* 💰 Current Bitcoin price and market statistics
+* 📊 Historical price analysis
+* 📉 Market trend visualization
+* 🔮 Bitcoin price prediction
+* 📅 Time-based price analysis
+* 📌 Key market indicators
+* 🌓 Responsive and modern dashboard UI
+* ⚡ Fast Next.js application
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_AAdT7n39Y8oTDaycekrlXSeqn1JS)
+## 🧠 Project Objective
 
-## Getting Started
+The objective of AC Predictor is to analyze historical Bitcoin market data and visualize price movements using data science techniques.
 
-First, run the development server:
+The project focuses on understanding:
+
+* Price trends
+* Market volatility
+* Historical patterns
+* Trading volume
+* Moving averages
+* Price fluctuations
+* Predictive trends
+
+> **Note:** Bitcoin prices are highly volatile. Predictions shown by this project are for educational and analytical purposes and should not be considered financial advice.
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* **Next.js**
+* **React**
+* **TypeScript**
+* **Tailwind CSS**
+
+### Data & Visualization
+
+* Interactive charts
+* Historical Bitcoin market data
+* Statistical analysis
+* Time-series analysis
+
+### Development
+
+* **v0**
+* **Node.js**
+* **npm / pnpm / yarn**
+
+## 📂 Project Structure
+
+```text
+ac-predictor-BITCOIN/
+├── app/
+│   ├── page.tsx
+│   ├── layout.tsx
+│   └── globals.css
+├── components/
+├── public/
+├── styles/
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+## ⚙️ Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/YOUR-USERNAME/ac-predictor-BITCOIN.git
+cd ac-predictor-BITCOIN
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+Or:
+
+```bash
+pnpm install
+```
+
+### 3. Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-## Learn More
+The application will now be available in your browser.
 
-To learn more, take a look at the following resources:
+## 📊 Data Analysis
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+The project can be extended with Python-based data analysis to calculate:
+
+* Daily returns
+* Moving averages
+* Rolling volatility
+* Trading volume trends
+* Maximum drawdown
+* Market performance
+* Historical price patterns
+
+A typical analysis pipeline is:
+
+```text
+Bitcoin Market Data
+        ↓
+Data Collection
+        ↓
+Data Cleaning
+        ↓
+Exploratory Data Analysis
+        ↓
+Statistical Analysis
+        ↓
+Visualization
+        ↓
+Prediction
+        ↓
+Interactive Dashboard
+```
+
+## 🔮 Future Improvements
+
+* [ ] Real-time Bitcoin price API
+* [ ] Advanced technical indicators
+* [ ] Machine learning prediction models
+* [ ] LSTM-based time-series forecasting
+* [ ] Volatility prediction
+* [ ] Historical market comparison
+* [ ] Portfolio tracking
+* [ ] Downloadable analysis reports
+* [ ] Python data-analysis backend
+
+## 🎓 Academic Use
+
+This project can be used as a **Python for Data Science / Data Analytics project** to demonstrate:
+
+* Data collection
+* Data preprocessing
+* Exploratory Data Analysis
+* Statistical analysis
+* Data visualization
+* Time-series analysis
+* Machine learning
+* Interactive dashboard development
+
+## ⚠️ Disclaimer
+
+This project is created for **educational and experimental purposes only**.
+
+Bitcoin price predictions are inherently uncertain and should not be interpreted as guaranteed future prices, investment recommendations, or financial advice.
+
+## 👨‍💻 Author
+
+**Ayush Chaudhary**
+
+B.Tech Student
+Interested in Python, Data Science, Machine Learning & DSA
+
+---
+
+⭐ If you find this project useful, consider giving the repository a star!
