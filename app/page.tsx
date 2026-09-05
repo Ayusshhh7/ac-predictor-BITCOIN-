@@ -7,7 +7,6 @@ import {
   ArrowUpRight,
   BarChart3,
   Bell,
-  ChevronDown,
   CircleHelp,
   Clock3,
   Gauge,
@@ -77,9 +76,9 @@ export default function Page() {
   return (
     <main className="app-shell">
       <header className="topbar">
-        <div className="brand"><div className="brand-mark">₿</div><div><strong>Satoshi Signal</strong><span>Bitcoin intelligence</span></div></div>
+        <div className="brand"><div className="brand-mark">₿</div><div><strong>AC Predictor</strong><span>Bitcoin intelligence</span></div></div>
         <nav className="desktop-nav"><a className="active" href="#overview">Overview</a><a href="#analytics">Analytics</a><a href="#methodology">Methodology</a></nav>
-        <div className="top-actions"><button className="icon-button" aria-label="Search"><Search size={18} /></button><button className={`icon-button ${alertOn ? 'is-active' : ''}`} onClick={() => setAlertOn(!alertOn)} aria-label="Toggle alerts"><Bell size={18} /></button><button className="profile-button"><span className="avatar">JD</span><span className="profile-name">Jordan Davis</span><ChevronDown size={15} /></button><button className="mobile-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">{menuOpen ? <X size={20} /> : <Menu size={20} />}</button></div>
+        <div className="top-actions"><button className="icon-button" aria-label="Search"><Search size={18} /></button><button className={`icon-button ${alertOn ? 'is-active' : ''}`} onClick={() => setAlertOn(!alertOn)} aria-label="Toggle alerts"><Bell size={18} /></button><button className="mobile-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">{menuOpen ? <X size={20} /> : <Menu size={20} />}</button></div>
       </header>
       {menuOpen && <nav className="mobile-nav"><a href="#overview">Overview</a><a href="#analytics">Analytics</a><a href="#methodology">Methodology</a></nav>}
 
@@ -99,7 +98,7 @@ export default function Page() {
         </section>
 
         <section className="panel accuracy-panel" id="methodology"><div className="section-heading"><div><p className="label">Track record</p><h2>Recent prediction accuracy</h2></div><button className="text-button">View all <ArrowUpRight size={15} /></button></div><div className="table-wrap"><table><thead><tr><th>Forecast date</th><th>Horizon</th><th>Predicted</th><th>Actual</th><th>Result</th><th>Confidence</th></tr></thead><tbody><tr><td>Sep 14, 2026</td><td>24 hours</td><td>$66,980</td><td>$67,428</td><td><span className="result correct"><ShieldCheck size={14} />Correct</span></td><td>82%</td></tr><tr><td>Sep 12, 2026</td><td>7 days</td><td>$64,250</td><td>$65,841</td><td><span className="result correct"><ShieldCheck size={14} />Correct</span></td><td>76%</td></tr><tr><td>Sep 05, 2026</td><td>7 days</td><td>$69,800</td><td>$65,102</td><td><span className="result missed"><ArrowDownRight size={14} />Missed</span></td><td>68%</td></tr></tbody></table></div><div className="accuracy-footer"><span><Sparkles size={16} /> 78.4% average accuracy across the last 30 predictions</span><span className="disclaimer"><CircleHelp size={14} /> Not financial advice</span></div></section>
-        <footer><span>Satoshi Signal · Data refreshed every 5 minutes</span><span>Model v2.4.1</span></footer>
+        <footer><span>AC Predictor · Data refreshed every 5 minutes</span><span>Model v2.4.1</span></footer>
       </div>
     </main>
   )

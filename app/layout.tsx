@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Satoshi Signal | Bitcoin Intelligence',
+  title: 'AC Predictor | Bitcoin Intelligence',
   description: 'Bitcoin price forecasts, market analytics, and transparent model confidence.',
   generator: 'v0.app',
   icons: {
