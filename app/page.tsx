@@ -25,6 +25,13 @@ import {
 const periods = ['24H', '7D', '30D', '90D']
 const points = [42, 46, 43, 50, 48, 57, 54, 59, 63, 61, 68, 66, 72, 70, 77, 74, 81, 79, 84, 82, 87, 84, 91, 88]
 const forecastPoints = [88, 91, 94, 93, 97, 101, 99, 106, 110, 108, 114, 118]
+const accuracyRows = [
+  ['Sep 14, 2026', '24 hours', '$66,980', '$67,428', 'Correct', '82%'],
+  ['Sep 12, 2026', '7 days', '$64,250', '$65,841', 'Correct', '76%'],
+  ['Sep 05, 2026', '7 days', '$69,800', '$65,102', 'Missed', '68%'],
+  ['Aug 29, 2026', '7 days', '$63,480', '$64,110', 'Correct', '71%'],
+  ['Aug 22, 2026', '14 days', '$61,900', '$60,420', 'Missed', '64%'],
+]
 
 const currencies = {
   USD: { symbol: '$', locale: 'en-US', rate: 1 },
@@ -40,6 +47,13 @@ function formatPrice(value: number, currency: Currency) {
 
 function PriceChart({ period, currency }: { period: string; currency: Currency }) {
   const allPoints = [...points, ...forecastPoints]
+  const axisLabels = period === '24H'
+    ? ['00:00', '06:00', '12:00', '18:00', 'Now']
+    : period === '7D'
+      ? ['Sep 15', 'Sep 17', 'Sep 19', 'Sep 21', 'Sep 23', 'Sep 25']
+      : period === '30D'
+        ? ['Aug 27', 'Sep 02', 'Sep 08', 'Sep 14', 'Sep 20', 'Sep 25']
+        : ['Jun 28', 'Jul 16', 'Aug 03', 'Aug 21', 'Sep 08', 'Sep 25']
   const width = 760
   const height = 250
   const min = 30
@@ -68,7 +82,7 @@ function PriceChart({ period, currency }: { period: string; currency: Currency }
         <circle cx={getX(points.length - 1)} cy={getY(points[points.length - 1])} r="5" fill="var(--orange)" stroke="var(--panel)" strokeWidth="3" />
         <circle cx={getX(allPoints.length - 1)} cy={getY(allPoints[allPoints.length - 1])} r="5" fill="var(--blue)" stroke="var(--panel)" strokeWidth="3" />
       </svg>
-      <div className="chart-axis"><span>Sep 01</span><span>Sep 05</span><span>Sep 09</span><span>Sep 13</span><span>Sep 17</span><span>Sep 21</span></div>
+      <div className="chart-axis">{axisLabels.map((label) => <span key={label}>{label}</span>)}</div>
       <div className="chart-legend"><span><i className="legend-dot orange" />Actual price</span><span><i className="legend-dot blue" />Model forecast</span><span><i className="legend-dot gray" />Forecast starts</span></div>
     </div>
   )
@@ -79,6 +93,7 @@ export default function Page() {
   const [currency, setCurrency] = useState<Currency>('USD')
   const [menuOpen, setMenuOpen] = useState(false)
   const [alertOn, setAlertOn] = useState(false)
+  const [showAllAccuracy, setShowAllAccuracy] = useState(false)
   const confidence = useMemo(() => period === '24H' ? 82 : period === '7D' ? 76 : period === '30D' ? 64 : 52, [period])
   const chance = confidence >= 75 ? 'High chance' : confidence >= 60 ? 'Mid chance' : 'Low chance'
 
@@ -106,7 +121,7 @@ export default function Page() {
           <article className="panel market-panel"><div className="section-heading"><div><p className="label">Market pulse</p><h2>Key metrics</h2></div><Gauge size={19} className="muted-icon" /></div><div className="metric-grid"><div><span>24h high</span><strong>$68,140</strong></div><div><span>24h low</span><strong>$65,502</strong></div><div><span>Dominance</span><strong>53.8%</strong></div><div><span>Funding rate</span><strong className="positive">0.012%</strong></div></div><div className="market-sentiment"><div><span>Market sentiment</span><strong>Optimistic</strong></div><div className="sentiment-track"><span /></div><div className="sentiment-labels"><span>Fear</span><span>Neutral</span><span>Greed</span></div></div></article>
         </section>
 
-        <section className="panel accuracy-panel" id="methodology"><div className="section-heading"><div><p className="label">Track record</p><h2>Recent prediction accuracy</h2></div><button className="text-button">View all <ArrowUpRight size={15} /></button></div><div className="table-wrap"><table><thead><tr><th>Forecast date</th><th>Horizon</th><th>Predicted</th><th>Actual</th><th>Result</th><th>Confidence</th></tr></thead><tbody><tr><td>Sep 14, 2026</td><td>24 hours</td><td>$66,980</td><td>$67,428</td><td><span className="result correct"><ShieldCheck size={14} />Correct</span></td><td>82%</td></tr><tr><td>Sep 12, 2026</td><td>7 days</td><td>$64,250</td><td>$65,841</td><td><span className="result correct"><ShieldCheck size={14} />Correct</span></td><td>76%</td></tr><tr><td>Sep 05, 2026</td><td>7 days</td><td>$69,800</td><td>$65,102</td><td><span className="result missed"><ArrowDownRight size={14} />Missed</span></td><td>68%</td></tr></tbody></table></div><div className="accuracy-footer"><span><Sparkles size={16} /> 78.4% average accuracy across the last 30 predictions</span><span className="disclaimer"><CircleHelp size={14} /> Not financial advice</span></div></section>
+        <section className="panel accuracy-panel" id="methodology"><div className="section-heading"><div><p className="label">Track record</p><h2>Recent prediction accuracy</h2></div><button className="text-button" onClick={() => setShowAllAccuracy(!showAllAccuracy)} aria-expanded={showAllAccuracy}>{showAllAccuracy ? 'Show less' : 'View all'} <ArrowUpRight size={15} /></button></div><div className="table-wrap"><table><thead><tr><th>Forecast date</th><th>Horizon</th><th>Predicted</th><th>Actual</th><th>Result</th><th>Confidence</th></tr></thead><tbody>{accuracyRows.slice(0, showAllAccuracy ? accuracyRows.length : 3).map(([date, horizon, predicted, actual, result, rowConfidence]) => <tr key={date}><td>{date}</td><td>{horizon}</td><td>{predicted}</td><td>{actual}</td><td><span className={`result ${result === 'Correct' ? 'correct' : 'missed'}`}>{result === 'Correct' ? <ShieldCheck size={14} /> : <ArrowDownRight size={14} />}{result}</span></td><td>{rowConfidence}</td></tr>)}</tbody></table></div><div className="accuracy-footer"><span><Sparkles size={16} /> 78.4% average accuracy across the last 30 predictions</span><span className="disclaimer"><CircleHelp size={14} /> Not financial advice</span></div></section>
         <footer><span>AC Predictor · Data refreshed every 5 minutes</span><span>Model v2.4.1</span></footer>
       </div>
     </main>
