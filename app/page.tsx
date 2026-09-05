@@ -45,24 +45,29 @@ function formatPrice(value: number, currency: Currency) {
   return `${selected.symbol}${(value * selected.rate).toLocaleString(selected.locale, { maximumFractionDigits: 2 })}`
 }
 
+function getChartData(period: string) {
+  const configs = {
+    '24H': { actual: points.slice(-12), forecast: forecastPoints.slice(0, 6), labels: ['00:00', '06:00', '12:00', '18:00', 'Now'] },
+    '7D': { actual: points.slice(-14), forecast: forecastPoints.slice(0, 7), labels: ['Sep 19', 'Sep 20', 'Sep 21', 'Sep 22', 'Sep 23', 'Sep 24', 'Sep 25'] },
+    '30D': { actual: [38, 43, 41, 47, 45, 52, 49, 57, 54, 62, 59, 67, 64, 72, 70, 77, 74, 81, 79, 87, 84, 91], forecast: [94, 97, 101, 99, 106, 110, 108], labels: ['Aug 27', 'Sep 01', 'Sep 05', 'Sep 09', 'Sep 13', 'Sep 17', 'Sep 21', 'Sep 25'] },
+    '90D': { actual: [32, 36, 34, 39, 37, 43, 41, 47, 45, 52, 49, 57, 54, 62, 59, 67, 64, 72, 70, 77, 74, 81], forecast: [88, 93, 98, 103, 108, 114, 118], labels: ['Jun 28', 'Jul 12', 'Jul 26', 'Aug 09', 'Aug 23', 'Sep 06', 'Sep 20', 'Sep 25'] },
+  } as const
+  return configs[period as keyof typeof configs] ?? configs['7D']
+}
+
 function PriceChart({ period, currency }: { period: string; currency: Currency }) {
-  const allPoints = [...points, ...forecastPoints]
-  const axisLabels = period === '24H'
-    ? ['00:00', '06:00', '12:00', '18:00', 'Now']
-    : period === '7D'
-      ? ['Sep 15', 'Sep 17', 'Sep 19', 'Sep 21', 'Sep 23', 'Sep 25']
-      : period === '30D'
-        ? ['Aug 27', 'Sep 02', 'Sep 08', 'Sep 14', 'Sep 20', 'Sep 25']
-        : ['Jun 28', 'Jul 16', 'Aug 03', 'Aug 21', 'Sep 08', 'Sep 25']
+  const chartData = getChartData(period)
+  const { actual: actualPoints, forecast: forecastPointsForPeriod, labels: axisLabels } = chartData
+  const allPoints = [...actualPoints, ...forecastPointsForPeriod]
   const width = 760
   const height = 250
-  const min = 30
+  const min = 25
   const max = 125
   const getX = (index: number) => (index / (allPoints.length - 1)) * width
   const getY = (value: number) => height - ((value - min) / (max - min)) * height
-  const actual = points.map((value, index) => `${getX(index)},${getY(value)}`).join(' ')
-  const forecast = forecastPoints.map((value, index) => `${getX(index + points.length - 1)},${getY(value)}`).join(' ')
-  const fill = `0,${height} ${actual} ${width * (points.length - 1) / (allPoints.length - 1)},${height}`
+  const actual = actualPoints.map((value, index) => `${getX(index)},${getY(value)}`).join(' ')
+  const forecast = forecastPointsForPeriod.map((value, index) => `${getX(index + actualPoints.length - 1)},${getY(value)}`).join(' ')
+  const fill = `0,${height} ${actual} ${width * (actualPoints.length - 1) / (allPoints.length - 1)},${height}`
 
   return (
     <div className="chart-wrap">
