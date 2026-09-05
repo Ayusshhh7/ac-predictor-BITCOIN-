@@ -2,6 +2,10 @@
 
 A modern **Bitcoin Price Analysis & Prediction Dashboard** built with **Next.js and TypeScript**. The project provides an interactive interface for exploring Bitcoin price movements, market trends, historical data, and predictive insights.
 
+## 🌐 Live Demo
+
+[AC Predictor — Bitcoin Intelligence](https://ac-predictor-sigma.vercel.app/)
+
 ## 🚀 Features
 
 * 📈 Interactive Bitcoin price charts
