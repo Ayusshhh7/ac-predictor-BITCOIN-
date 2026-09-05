@@ -26,11 +26,19 @@ const periods = ['24H', '7D', '30D', '90D']
 const points = [42, 46, 43, 50, 48, 57, 54, 59, 63, 61, 68, 66, 72, 70, 77, 74, 81, 79, 84, 82, 87, 84, 91, 88]
 const forecastPoints = [88, 91, 94, 93, 97, 101, 99, 106, 110, 108, 114, 118]
 
-function formatPrice(value: number) {
-  return `$${value.toLocaleString('en-US')}`
+const currencies = {
+  USD: { symbol: '$', locale: 'en-US', rate: 1 },
+  INR: { symbol: '₹', locale: 'en-IN', rate: 83.2 },
+} as const
+
+type Currency = keyof typeof currencies
+
+function formatPrice(value: number, currency: Currency) {
+  const selected = currencies[currency]
+  return `${selected.symbol}${(value * selected.rate).toLocaleString(selected.locale, { maximumFractionDigits: 2 })}`
 }
 
-function PriceChart({ period }: { period: string }) {
+function PriceChart({ period, currency }: { period: string; currency: Currency }) {
   const allPoints = [...points, ...forecastPoints]
   const width = 760
   const height = 250
@@ -44,8 +52,8 @@ function PriceChart({ period }: { period: string }) {
 
   return (
     <div className="chart-wrap">
-      <div className="chart-meta"><span>BTC / USD</span><span>{period} performance</span></div>
-      <svg className="price-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`Bitcoin ${period} price history and forecast`} preserveAspectRatio="none">
+      <div className="chart-meta"><span>BTC / {currency}</span><span>{period} performance</span></div>
+      <svg className="price-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`Bitcoin ${period} price history and forecast in ${currency}`} preserveAspectRatio="none">
         <defs>
           <linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1">
             <stop offset="0%" stopColor="var(--orange)" stopOpacity=".2" />
@@ -68,6 +76,7 @@ function PriceChart({ period }: { period: string }) {
 
 export default function Page() {
   const [period, setPeriod] = useState('7D')
+  const [currency, setCurrency] = useState<Currency>('USD')
   const [menuOpen, setMenuOpen] = useState(false)
   const [alertOn, setAlertOn] = useState(false)
   const confidence = useMemo(() => period === '24H' ? 82 : period === '7D' ? 76 : period === '30D' ? 64 : 52, [period])
@@ -83,14 +92,14 @@ export default function Page() {
       {menuOpen && <nav className="mobile-nav"><a href="#overview">Overview</a><a href="#analytics">Analytics</a><a href="#methodology">Methodology</a></nav>}
 
       <div className="page-content" id="overview">
-        <div className="page-heading"><div><p className="eyebrow"><span className="live-dot" />Market is live</p><h1>Bitcoin outlook</h1><p className="subheading">A clearer read on where BTC may be heading next.</p></div><button className="outline-button"><Clock3 size={16} /> Last updated 2 min ago</button></div>
+        <div className="page-heading"><div><p className="eyebrow"><span className="live-dot" />Market is live</p><h1>Bitcoin outlook</h1><p className="subheading">A clearer read on where BTC may be heading next.</p></div><div className="heading-actions"><label className="currency-picker"><span>Currency</span><select value={currency} onChange={(event) => setCurrency(event.target.value as Currency)} aria-label="Select currency"><option value="USD">USD ($)</option><option value="INR">INR (₹)</option></select></label><button className="outline-button"><Clock3 size={16} /> Last updated 2 min ago</button></div></div>
 
         <section className="hero-grid">
-          <article className="panel quote-card"><div className="panel-kicker"><span>BTC / USD</span><span className="positive"><ArrowUpRight size={15} /> 2.84%</span></div><div className="quote-price">$67,428.12</div><div className="quote-change">+$1,864.32 <span>today</span></div><div className="quote-foot"><span><Activity size={15} />Vol. $28.4B</span><span><Wallet size={15} />Mkt cap $1.33T</span></div></article>
-          <article className="panel forecast-card"><div className="panel-heading"><div><p className="label">Model forecast</p><h2>Upward pressure</h2></div><div className="signal-icon"><TrendingUp size={20} /></div></div><div className="forecast-price">$71,850 <span>+6.6%</span></div><div className="confidence-row"><div><span className="label">Confidence</span><strong>{confidence}%</strong></div><div className={`chance-badge ${chance.toLowerCase().replace(' ', '-')}`}><span />{chance} of correct prediction</div></div><div className="confidence-bar"><span style={{ width: `${confidence}%` }} /></div><p className="forecast-note">Model sees accumulation across 4 of 5 leading indicators.</p></article>
+          <article className="panel quote-card"><div className="panel-kicker"><span>BTC / {currency}</span><span className="positive"><ArrowUpRight size={15} /> 2.84%</span></div><div className="quote-price">{formatPrice(67428.12, currency)}</div><div className="quote-change">+{formatPrice(1864.32, currency)} <span>today</span></div><div className="quote-foot"><span><Activity size={15} />Vol. {currency === 'USD' ? '$28.4B' : '₹2.36T'}</span><span><Wallet size={15} />Mkt cap {currency === 'USD' ? '$1.33T' : '₹110.7T'}</span></div></article>
+          <article className="panel forecast-card"><div className="panel-heading"><div><p className="label">Model forecast</p><h2>Upward pressure</h2></div><div className="signal-icon"><TrendingUp size={20} /></div></div><div className="forecast-price">{formatPrice(71850, currency)} <span>+6.6%</span></div><div className="confidence-row"><div><span className="label">Confidence</span><strong>{confidence}%</strong></div><div className={`chance-badge ${chance.toLowerCase().replace(' ', '-')}`}><span />{chance} of correct prediction</div></div><div className="confidence-bar"><span style={{ width: `${confidence}%` }} /></div><p className="forecast-note">Model sees accumulation across 4 of 5 leading indicators.</p></article>
         </section>
 
-        <section className="panel chart-panel" id="analytics"><div className="section-heading"><div><p className="label">Price action</p><h2>Price history & forecast</h2></div><div className="period-tabs" role="tablist">{periods.map((item) => <button key={item} className={period === item ? 'selected' : ''} onClick={() => setPeriod(item)} role="tab" aria-selected={period === item}>{item}</button>)}</div></div><PriceChart period={period} /></section>
+        <section className="panel chart-panel" id="analytics"><div className="section-heading"><div><p className="label">Price action</p><h2>Price history & forecast</h2></div><div className="period-tabs" role="tablist">{periods.map((item) => <button key={item} className={period === item ? 'selected' : ''} onClick={() => setPeriod(item)} role="tab" aria-selected={period === item}>{item}</button>)}</div></div><PriceChart period={period} currency={currency} /></section>
 
         <section className="analytics-grid">
           <article className="panel indicators-panel"><div className="section-heading"><div><p className="label">Signal strength</p><h2>Technical indicators</h2></div><Settings2 size={18} className="muted-icon" /></div><div className="indicator-list"><div className="indicator"><div className="indicator-name"><span>RSI (14)</span><strong>61.8</strong></div><div className="mini-bar"><span style={{ width: '62%' }} /></div><span className="indicator-status bullish">Bullish</span></div><div className="indicator"><div className="indicator-name"><span>MACD</span><strong>+184.2</strong></div><div className="mini-bar"><span style={{ width: '74%' }} /></div><span className="indicator-status bullish">Bullish</span></div><div className="indicator"><div className="indicator-name"><span>Moving average</span><strong>$64,920</strong></div><div className="mini-bar"><span style={{ width: '82%' }} /></div><span className="indicator-status bullish">Above MA</span></div><div className="indicator"><div className="indicator-name"><span>Fear & Greed</span><strong>74 / 100</strong></div><div className="mini-bar"><span className="yellow" style={{ width: '74%' }} /></div><span className="indicator-status caution">Greed</span></div></div></article>
