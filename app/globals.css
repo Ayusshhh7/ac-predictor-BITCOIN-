@@ -117,3 +117,37 @@ h2 { font-size: 17px; letter-spacing: -.025em; margin: 0; }
 footer { display: flex; justify-content: space-between; color: #9aa4b0; font-size: 10px; padding: 28px 2px 0; }
 @media (max-width: 760px) { .topbar { padding: 0 5vw; height: 64px; }.brand { min-width: 0; }.brand span { display: none; }.desktop-nav, .profile-button { display: none; }.top-actions { min-width: auto; gap: 3px; }.mobile-menu { display: grid; }.mobile-nav { display: flex; flex-direction: column; background: var(--panel); border-bottom: 1px solid var(--border); padding: 12px 5vw; gap: 12px; }.mobile-nav a { color: var(--muted-foreground); text-decoration: none; font-size: 13px; padding: 4px 0; }.page-content { width: 90vw; padding-top: 30px; }.page-heading { align-items: flex-start; flex-direction: column; gap: 15px; }.heading-actions { width: 100%; flex-wrap: wrap; }.currency-picker { flex: 1; justify-content: space-between; min-width: 145px; }.outline-button { flex: 1; justify-content: center; min-width: 180px; }.hero-grid, .analytics-grid { grid-template-columns: 1fr; }.quote-card, .forecast-card { min-height: auto; }.quote-price { font-size: clamp(30px, 9vw, 36px); }.quote-foot { line-height: 1.4; }.price-chart { height: 190px; }.chart-panel, .indicators-panel, .market-panel, .accuracy-panel { padding-left: 17px; padding-right: 17px; }.section-heading { align-items: flex-start; }.section-heading .period-tabs { flex-shrink: 0; max-width: 100%; }.period-tabs button { padding: 5px 7px; }.chart-legend { flex-wrap: wrap; gap: 8px 14px; }.accuracy-footer { align-items: flex-start; flex-direction: column; gap: 10px; } footer { gap: 12px; flex-direction: column; } }
 @media (max-width: 430px) { .page-content { width: calc(100vw - 28px); }.page-heading { margin-bottom: 20px; }.subheading { line-height: 1.5; }.heading-actions { gap: 8px; }.currency-picker, .outline-button { width: 100%; flex: none; }.quote-card, .forecast-card { padding: 18px; }.quote-foot { gap: 10px; flex-direction: column; align-items: flex-start; }.confidence-row { align-items: flex-start; flex-direction: column; gap: 10px; }.chance-badge { white-space: normal; }.chart-panel, .indicators-panel, .market-panel, .accuracy-panel { padding: 18px 15px 15px; }.section-heading { flex-direction: column; gap: 13px; }.period-tabs { width: 100%; justify-content: space-between; }.period-tabs button { flex: 1; }.chart-wrap { margin-top: 18px; }.chart-meta { gap: 8px; }.chart-axis span:nth-child(even) { display: none; }.chart-legend { margin-top: 13px; }.forecast-price { margin-top: 15px; font-size: 23px; } }
+
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.page-content {
+  width: 100%;
+  max-width: 100%;
+}
+
+.chart-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.price-chart {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+}
